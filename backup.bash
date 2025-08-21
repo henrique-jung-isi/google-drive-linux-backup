@@ -100,7 +100,7 @@ if [[ ! -z $id || $dryRun ]]; then
 		name="$(basename "$file")"
 		id=$(getIdByName "$drive/$accumulated" "$name")
 		if [[ ! -z "$id" ]] && diff -q "$file" "$drive/$accumulated$id" >/dev/null 2>&1; then
-			echo "$file" up to date
+			echo google-drive:/$originalDestination/$name up to date
 		else
 			if [[ $dryRun -eq 0 ]]; then
 				cp "$file" "$drive/$accumulated"
