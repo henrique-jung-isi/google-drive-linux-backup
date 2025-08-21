@@ -83,23 +83,29 @@ for folder in "${folderToSave[@]}"; do
 		if [[ $create -eq 0 ]]; then
 			echo 'Path not found. Not creating: -r option missing.'
 			exit 1
-		elif [[ $dryRun -eq 0 ]]; then
+		fi
+		if [[ $dryRun -eq 0 ]]; then
 			mkdir "$current$folder"
 			id=$(getIdByName "$current" "$folder")
+		else
+			echo "Would create dir -> google-drive:/$originalDestination"
+			break
 		fi
 	fi
 	accumulated="$accumulated$id/"
 done
 
-if [[ ! -z $id ]]; then
+if [[ ! -z $id || $dryRun ]]; then
 	for file in "${files[@]}"; do
 		name="$(basename "$file")"
 		id=$(getIdByName "$drive/$accumulated" "$name")
 		if [[ ! -z "$id" ]] && diff -q "$file" "$drive/$accumulated$id" >/dev/null 2>&1; then
 			echo "$file" up to date
 		else
-			cp "$file" "$drive/$accumulated"
-			echo "$file -> google-drive:/$originalDestination"
+			if [[ $dryRun -eq 0 ]]; then
+				cp "$file" "$drive/$accumulated"
+			fi
+			echo "$([[ $dryRun -eq 1 ]] && echo "Would copy: " || echo "")$file -> google-drive:/$originalDestination"
 		fi
 
 	done
