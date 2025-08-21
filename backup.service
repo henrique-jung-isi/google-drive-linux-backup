@@ -1,0 +1,9 @@
+[Unit]
+Description=Backup of vscode configs to google drive
+Requires=gvfs-daemon.service
+After=gvfs-goa-volume-monitor.service
+  
+
+[Service]
+ExecStart=~/.config/systemd/user/backup.bash
+Type=oneshot
