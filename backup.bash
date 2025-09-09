@@ -56,7 +56,11 @@ Files:
 		;;
 	-r) create=1 ;;
 	*)
-		files+=($(pwd)/"$1")
+		if [[ "$1" = /* ]]; then
+			files+=("$1")
+		else
+			files+=("$(pwd)/$1")
+		fi
 		;;
 	esac
 	shift
