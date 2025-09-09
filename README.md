@@ -32,19 +32,32 @@ Files:
 
 ## Service and timer files
 
-This files will automate the usage of the script. By default the scipt will run 1 minute after boot and every hour from there.
+These files will automate the usage of the script. By default the script will run 1 minute after boot and every hour from there.
 
-To use copy them to `~/.config/systemd/user`.  
-Reload the systemctl daemon and enable them.
+To use, there are two options:
 
 ```bash
-cp backup.* ~/.config/systemd/user
+sudo cp backup.* /etc/systemd/user
 systemctl --user daemon-reload
 systemctl --user enable backup.timer
 ```
 
+This will copy all the files to the user systemctl folder.
+
+Or create a symlink to the script:
+
+```bash
+sudo cp backup.service /etc/systemd/user
+sudo cp backup.timer /etc/systemd/user
+sudo ln -s $(pwd)/backup.bash /etc/systemd/user
+systemctl --user daemon-reload
+systemctl --user enable backup.timer
+```
+
+This way the script can be modified from the repository directory.
+
 The timer will be stopped, to start it without rebooting run:
 
-```
+```bash
 systemctl --user start backup.timer
 ```
