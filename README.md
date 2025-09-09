@@ -56,6 +56,11 @@ systemctl --user enable backup.timer
 
 This way the script can be modified from the repository directory.
 
+> [!TIP]
+> Sudo is needed because the folder `/etc/systemd/user` is owned by root by default and there is no string interpolation for `ExecStart` in services.
+> The `ExecStart` in `backup.service` can be modified to point to an absolute path of the script.
+> Then the services can be copied to `~/.config/systemd/user` without sudo
+
 The timer will be stopped, to start it without rebooting run:
 
 ```bash
