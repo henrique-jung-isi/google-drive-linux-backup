@@ -107,7 +107,7 @@ if [[ ! -z $id || $dryRun ]]; then
 			echo google-drive:/$originalDestination/$name up to date
 		else
 			if [[ $dryRun -eq 0 ]]; then
-				cp "$file" "$drive/$accumulated"
+				cp -r "$file" "$drive/$accumulated"
 			fi
 			echo "$([[ $dryRun -eq 1 ]] && echo "Would copy: " || echo "")$file -> google-drive:/$originalDestination"
 		fi
